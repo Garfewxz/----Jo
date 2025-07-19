@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ตารางเรียน | มหาวิทยาลัยแม่โจ้</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Sarabun", sans-serif;
+            background-color: #f1fdf3;
+            color: #333;
+        }
+
+        /* Custom styles for the green navigation background */
+        nav {
+            background-color: #00A65A;
+        }
+
+        /* Container for content below header/nav */
+        .container {
+            max-width: 1000px; /* Adjust as needed */
+            margin: auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Styling for the "ตารางเรียน" title box */
+        .title-box {
+            background: #a5d6a7; /* Light green */
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .title-box h2 {
+            color: white; /* White text for the title */
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .title-box p {
+            color: #e0f2f1; /* Lighter green for subtitle */
+            margin-top: 0.5rem;
+        }
+
+        /* Controls for dropdowns */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .controls select {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            min-width: 200px;
+        }
+
+        /* Table container styling */
+        .table-box {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+            overflow-x: auto; /* Enables horizontal scrolling for small screens */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #c8e6c9; /* Header row background */
+            color: #1b5e20; /* Header row text color */
+        }
+
+        td.day {
+            background-color: #a5d6a7; /* Day column background */
+            font-weight: bold;
+        }
+
+        td.class {
+            background-color: #e8f5e9; /* Class cell background */
+        }
+
+        /* Responsive adjustments for controls on small screens */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Adjustments for desktop navigation links to prevent overflow */
+        .nav-link-desktop {
+            /* Reduced horizontal padding, slightly smaller vertical padding */
+            padding: 0.5rem 0.75rem; /* Equivalent to px-3 py-2 in Tailwind */
+            font-size: 0.875rem; /* text-sm in Tailwind */
+            /* Keep whitespace-nowrap if you want to avoid wrapping entirely */
+            white-space: nowrap;
+        }
+
+        /* If you still experience overflow, try even smaller font/padding or remove whitespace-nowrap */
+        /* For example: */
+        /* .nav-link-desktop {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem; // text-xs in Tailwind
+            white-space: normal; // Allow text to wrap if it overflows
+        } */
+
+    </style>
+</head>
+<body class="bg-green-50 text-gray-800 min-h-screen flex flex-col items-center">
+
+    <header class="bg-white w-full flex items-center justify-between p-2 sm:p-4 border-b shadow-sm">
+        <div class="flex items-center space-x-2 sm:space-x-4">
+            <img src="MJU_LOGO.svg.png" alt="MJU Logo" class="h-10 sm:h-12">
+            <div class="flex flex-col leading-tight">
+                <span class="font-bold text-xl sm:text-3xl">REG</span>
+                <span class="text-base sm:text-xl font-medium">Maejo University</span>
+                <span class="text-sm sm:text-lg text-gray-700 hidden sm:block">มหาวิทยาลัยแม่โจ้</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="text-white w-full py-3 shadow-md">
+        <div class="container mx-auto flex justify-between items-center px-4">
+            <button id="mobile-menu-button" class="md:hidden p-2 focus:outline-none focus:bg-green-600 rounded-md">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+
+            <div class="hidden md:flex flex-1 justify-around items-center">
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">หน้าหลัก</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">ตารางเรียน</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">ตารางการใช้ห้อง</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">ปฏิทินการศึกษา</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">หลักสูตรที่เปิดสอน</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">แผนเข้าและการลงทะเบียน</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">เว็บไซต์ที่ดำเนินงานบริการ</a>
+                <a href="#" class="nav-link-desktop hover:bg-green-600 rounded-md">ออกจากระบบ</a>
+            </div>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-green-700 pb-2">
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">หน้าหลัก</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">ตารางเรียน</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">ตารางการใช้ห้อง</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">ปฏิทินการศึกษา</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">หลักสูตรที่เปิดสอน</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">แผนเข้าและการลงทะเบียน</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">เว็บไซต์ที่ดำเนินงานบริการ</a>
+            <a href="#" class="block px-4 py-2 hover:bg-green-600 rounded-md">ออกจากระบบ</a>
+        </div>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle logic
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+
+            // Existing dropdown logic (if elements exist)
+            // Note: These IDs ('calendarSet', 'academicYear', 'semester') are not present in the current HTML.
+            // If you add select elements with these IDs, this script will make them functional.
+            const calendarSetSelect = document.getElementById('calendarSet');
+            const academicYearSelect = document.getElementById('academicYear');
+            const semesterSelect = document.getElementById('semester');
+            const allTables = document.querySelectorAll('#calendarTablesContainer table'); // Assumes a container for tables
+
+            function showCorrectTable() {
+                // Prevent errors if dropdowns don't exist
+                if (!calendarSetSelect || !academicYearSelect || !semesterSelect) return;
+
+                const selectedCalendarSet = calendarSetSelect.value;
+                const selectedAcademicYear = academicYearSelect.value;
+                const selectedSemester = semesterSelect.value;
+                const targetTableId = `table-${selectedCalendarSet}-${selectedAcademicYear}-${selectedSemester}`;
+
+                allTables.forEach(table => {
+                    table.classList.add('hidden');
+                });
+
+                const targetTable = document.getElementById(targetTableId);
+                if (targetTable) {
+                    targetTable.classList.remove('hidden');
+                }
+            }
+
+            // Add event listeners only if dropdown elements exist
+            if (calendarSetSelect && academicYearSelect && semesterSelect) {
+                calendarSetSelect.addEventListener('change', showCorrectTable);
+                academicYearSelect.addEventListener('change', showCorrectTable);
+                semesterSelect.addEventListener('change', showCorrectTable);
+                showCorrectTable(); // Initial call to set correct table visibility
+            }
+        });
+    </script>
+
+    <div class="container">
+
+        <div class="title-box">
+            <h2>📅 ตารางเรียน</h2>
+            <p>ประจำภาคการศึกษา 1/2568</p>
+        </div>
+
+        
+
+        <div class="table-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>วัน/เวลา</th>
+                        <th>8:00-9:00</th>
+                        <th>9:00-10:00</th>
+                        <th>10:00-11:00</th>
+                        <th>11:00-12:00</th>
+                        <th>13:00-14:00</th>
+                        <th>14:00-15:00</th>
+                        <th>15:00-16:00</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="day">จันทร์</td>
+                        <td></td>
+                        <td class="class" colspan="2">10301231<br>Lab ลคม3-4<br>105</td>
+                        <td></td>
+                        <td class="class" colspan="2">10301222<br>Lab ลคม3-4<br>105</td>
+                        <td class="class">10700313<br>ศ306<br>125</td>
+                    </tr>
+                    <tr>
+                        <td class="day">อังคาร</td>
+                        <td class="class" colspan="2">10301231<br>Lab ลคม3-4<br>105</td>
+                        <td></td><td></td>
+                        <td class="class" colspan="2">10301225<br>ลคม3-4<br>105</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="day">พุธ</td>
+                        <td></td>
+                        <td class="class" colspan="2">10301225<br>3203<br>141</td>
+                        <td></td><td></td><td></td><td></td>
+                    </tr>
+                    <tr>
+                        <td class="day">พฤหัสบดี</td>
+                        <td></td>
+                        <td class="class" colspan="2">10301222<br>Lab ลคม3-4<br>105</td>
+                        <td></td>
+                        <td class="class" colspan="2">10301223<br>Lab ลคม3-4<br>105</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="day">ศุกร์</td>
+                        <td></td>
+                        <td class="class">10301211<br>3203<br>141</td>
+                        <td></td><td></td><td></td><td></td>
+                        <td class="class">10700313<br>ศ306<br>125</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+</html>
